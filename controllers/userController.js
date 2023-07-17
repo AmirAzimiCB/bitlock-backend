@@ -18,12 +18,22 @@ export const updatePersonalInfo = async (req, res) => {
   }
   try {
     if(gid.length>0){
+      if(req.body?.old_images != undefined){
+        gid.push(...req.body.old_images);
+        console.log(gid);
+      }
       let government_issued_identification = gid.join();
       await User.updateOne({ _id: req.params.id }, {
         government_issued_identification: government_issued_identification,
+        ...req.body,
       });
     } else {
+      if(req.body?.old_images != undefined){
+        gid.push(...req.body.old_images);
+      }
+      let government_issued_identification = gid.join();
       await User.updateOne({ _id: req.params.id }, {
+        government_issued_identification: government_issued_identification,
         ...req.body,
       });
     }
