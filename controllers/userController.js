@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import * as dotenv from "dotenv";
 import Loan from "../models/Loan.js";
 import Wallet from "../models/Wallet.js";
+import * as fs from "fs";
 dotenv.config();
 
 export const checkLogin = async(req, res) => {
@@ -16,11 +17,17 @@ export const updatePersonalInfo = async (req, res) => {
       gid[i]=req.files[i].filename;
     }
   }
+  if(req.body?.removed_images != undefined){
+    req.body.removed_images.forEach((item)=>{
+      fs.rmSync("uploads/"+item, {
+        force: true,
+      });
+    });
+  }
   try {
     if(gid.length>0){
       if(req.body?.old_images != undefined){
         gid.push(...req.body.old_images);
-        console.log(gid);
       }
       let government_issued_identification = gid.join();
       await User.updateOne({ _id: req.params.id }, {
@@ -105,22 +112,26 @@ export const getMyLoans = async (req, res) => {
 }
 
 export const saveWallet = async (req, res) => {
+  console.log("save+wallet calleed");
   try {
-    if(req.body?._id != undefined){
-      await Wallet.updateOne({ _id: req.body._id }, {
-        address:req.body.address,
-        percentage:req.body.percentage,
-      });
-    } else {
-      let user = await User.findOne({ _id: req.params.id });
+    await Wallet.deleteMany({user:req.params.id}).then(function(){
+      console.log("Data deleted"); // Success
+    }).catch(function(error){
+      console.log(error); // Failure
+    });
+    let user = await User.findOne({ _id: req.params.id });
+    user.wallets=[];
+    for(let i=0; i<req.body.address.length;i++) {
       const wallet = new Wallet({
-        ...req.body,
+        address:req.body.address[i],
+        percentage:req.body.percentage[i],
+        user
       });
-      wallet.user = user;
       wallet.save();
       user.wallets.push(wallet._id)
-      user.save();
     }
+    user.save();
+    console.log("saved");
     return res.status(200).json({status:"Success", result:"Saved"}).end();
   } catch (err) {
     console.log(err);
