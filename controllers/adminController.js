@@ -10,7 +10,7 @@ export const getUsers = async (req, res) => {
     return res.status(200).json({status:"Success", users}).end();
 }
 export const getLoans = async (req, res) => {
-    let loans = await Loan.find().populate('user');
+    let loans = await Loan.find().populate('user').populate('payments');
     return res.status(200).json({status:"Success", loans}).end();
 }
 
@@ -33,7 +33,6 @@ export const getWallet = async (req, res) => {
 }
 
 export const saveLoanPayments = async (req, res) => {
-    return res.status(200).json({...req.body}).end();
     try {
         await LoanPayments.deleteMany({loan:req.params.id}).then(function(){
             console.log("Data deleted"); // Success
@@ -42,7 +41,7 @@ export const saveLoanPayments = async (req, res) => {
         });
         let loan = await Loan.findOne({ _id: req.params.id });
         loan.payments=[];
-        for(let i=0; i<req.body.address.length;i++) {
+        for(let i=0; i<req.body.billing_period.length;i++) {
             const loanPayments = new LoanPayments({
                 billing_period:req.body.billing_period[i],
                 payment_due:req.body.payment_due[i],
@@ -60,4 +59,12 @@ export const saveLoanPayments = async (req, res) => {
         console.log(err);
         return res.status(500).json(err).end();
     }
+}
+
+export const saveLoanApproval = async (req, res) => {
+    console.log(req.body.approved,req.params.id);
+    await Loan.updateOne({_id:req.params.id},{
+        approved:req.body.approved,
+    });
+    return res.status(200).json({status:"Success", result:"Saved"}).end();
 }

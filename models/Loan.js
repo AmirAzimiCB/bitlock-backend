@@ -6,7 +6,7 @@ const Loan = new mongoose.Schema({
         loan_type: {type: String},
         category: {type: String},
         use_of_funds: {type: String},
-        approved: {type: Boolean, default: false},
+        approved: {type: String, default: null},
         user: {type: mongoose.Types.ObjectId, ref: "User"},
         payments: [{type: mongoose.Types.ObjectId, ref: "LoanPayments"}],
     },
