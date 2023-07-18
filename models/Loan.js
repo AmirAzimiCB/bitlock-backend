@@ -8,6 +8,7 @@ const Loan = new mongoose.Schema({
         use_of_funds: {type: String},
         approved: {type: Boolean, default: false},
         user: {type: mongoose.Types.ObjectId, ref: "User"},
+        payments: [{type: mongoose.Types.ObjectId, ref: "LoanPayments"}],
     },
     {timestamps: true}
 )
