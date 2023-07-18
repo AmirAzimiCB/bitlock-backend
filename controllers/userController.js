@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import Loan from "../models/Loan.js";
 import Wallet from "../models/Wallet.js";
 import * as fs from "fs";
+import AdminWallet from "../models/AdminWallet.js";
 dotenv.config();
 
 export const checkLogin = async(req, res) => {
@@ -142,4 +143,9 @@ export const saveWallet = async (req, res) => {
 export const getMyWallets = async (req, res) => {
   let wallets = await Wallet.find({user:req.params.id});
   return res.status(200).json({status:"Success", wallets}).end();
+}
+
+export const getAdminWallet = async (req, res) => {
+  let wallet = await AdminWallet.findOne()
+  return res.status(200).json({status:"Success", wallet}).end();
 }
