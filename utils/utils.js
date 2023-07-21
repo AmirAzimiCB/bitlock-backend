@@ -251,7 +251,7 @@ export const sendSms = (number, text) => {
     })
   }).then(r => {
     console.log('clicksend response', r)
-    console.log(parseXmlToJson(r));
+    // console.log(parseXmlToJson(r));
   });
 }
 
@@ -263,4 +263,14 @@ const parseXmlToJson= (xml) => {
     json[key] = ((value && Object.keys(value).length) ? value : res[2]) || null;
   }
   return json;
+}
+
+export  const generateOTP = (length = 4) => {
+  let otp = ''
+
+  for (let i = 0; i < length; i++) {
+    otp += Math.floor(Math.random() * 10)
+  }
+
+  return otp
 }

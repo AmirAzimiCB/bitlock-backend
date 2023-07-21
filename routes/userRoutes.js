@@ -10,6 +10,7 @@ import {
   getMyWallets,
   checkLogin, getAdminWallet
 } from '../controllers/userController.js'
+import {getLoans} from "../controllers/adminController.js";
 
 const router = express.Router()
 
