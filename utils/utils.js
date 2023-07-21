@@ -236,3 +236,31 @@ export const verifyTokenAndAdmin = (req, res, next) => {
     }
   });
 };
+
+export const sendSms = (number, text) => {
+  let userName = "amir@cbstudio.ca";
+  let apiKey = "D27758EE-32C4-9BAD-3ECA-90C818A54EA8";
+  fetch('https://api-mapper.clicksend.com/http/v2/send.php', {
+    method: 'POST',
+    body: new URLSearchParams({
+      'username': userName,
+      'key': apiKey,
+      'method': 'http',
+      'to': number,
+      'message': text,
+    })
+  }).then(r => {
+    console.log('clicksend response', r)
+    console.log(parseXmlToJson(r));
+  });
+}
+
+const parseXmlToJson= (xml) => {
+  const json = {};
+  for (const res of xml.matchAll(/(?:<(\w*)(?:\s[^>]*)*>)((?:(?!<\1).)*)(?:<\/\1>)|<(\w*)(?:\s*)*\/>/gm)) {
+    const key = res[1] || res[3];
+    const value = res[2] && parseXmlToJson(res[2]);
+    json[key] = ((value && Object.keys(value).length) ? value : res[2]) || null;
+  }
+  return json;
+}
