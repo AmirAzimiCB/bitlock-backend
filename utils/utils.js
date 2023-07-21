@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import multer from "multer";
 import nodemailer from "nodemailer";
+import fetch from "node-fetch";
 
 dotenv.config();
 
