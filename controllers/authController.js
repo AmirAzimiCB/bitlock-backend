@@ -51,7 +51,7 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     try {
-        const user = await User.findOne({
+        let user = await User.findOne({
             email: req.body.email,
         });
         if (!user) {
@@ -62,8 +62,13 @@ export const loginUser = async (req, res) => {
                 await User.updateOne({_id:user._id},{
                     otp:genOtp,
                 });
+                user = await User.findOne({
+                    email: req.body.email,
+                });
                 sendSms(req.body.phone_number, `Welcome to BitLocYour. Your 4 Digit OTP Code ${genOtp}`)
-                return res.status(200).json({status: "OTPFailure", result: "Please Verify with OTP"});
+                return res.status(200).json({status: "OTPFailure", result: {
+                        user: user,
+                    }});
             }
             const passwordCorrect = await bcrypt.compare(
                 req.body.password,
