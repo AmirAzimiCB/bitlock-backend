@@ -24,7 +24,7 @@ export const registerUser = async (req, res) => {
                 res.status(500).json("Phone Number Already Exists");
             }
         } else {
-            var genOtp = generateOTP(4);
+            let genOtp = generateOTP(4);
             const newUser = new User({
                 first_name: req.body.name,
                 email: req.body.email,
@@ -43,7 +43,6 @@ export const registerUser = async (req, res) => {
             });
         }
         return;
-        sendSignupEmail(email)
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -58,6 +57,14 @@ export const loginUser = async (req, res) => {
         if (!user) {
             return res.status(200).json({status: "Failure", result: "Incorrect Email or Password"});
         } else {
+            if(!user.is_verified){
+                let genOtp = generateOTP(4);
+                await User.updateOne({_id:user._id},{
+                    otp:genOtp,
+                });
+                sendSms(req.body.phone_number, `Welcome to BitLocYour. Your 4 Digit OTP Code ${genOtp}`)
+                return res.status(200).json({status: "OTPFailure", result: "Please Verify with OTP"});
+            }
             const passwordCorrect = await bcrypt.compare(
                 req.body.password,
                 user.password
