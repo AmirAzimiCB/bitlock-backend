@@ -34,7 +34,7 @@ export const registerUser = async (req, res) => {
                 otp: genOtp,
             });
             newUser.save();
-            sendSms(req.body.phone_number, `Welcome to BitLocYour. Your 4 Digit OTP Code ${genOtp}`)
+            sendSms(req.body.phone_number, `Welcome and thank you for signing up to BitLoc. Your 4 Digit OTP Code is ${genOtp}`)
             res.status(200).json({
                 status: "Success",
                 result: {
@@ -65,7 +65,7 @@ export const loginUser = async (req, res) => {
                 user = await User.findOne({
                     email: req.body.email,
                 });
-                sendSms(req.body.phone_number, `Welcome to BitLocYour. Your 4 Digit OTP Code ${genOtp}`)
+                sendSms(req.body.phone_number, `Welcome and thank you for signing up to BitLoc. Your 4 Digit OTP Code is ${genOtp}`)
                 return res.status(200).json({status: "OTPFailure", result: {
                         user: user,
                     }});
