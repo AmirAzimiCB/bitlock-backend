@@ -108,7 +108,12 @@ export const uploadIdentityFiles = async (req, res) => {
 };
 
 export const getMyLoans = async (req, res) => {
-  let loans = await Loan.find({user:req.params.id}).populate('payments');
+  let loans = await Loan.find({user:req.params.id, approved: 'Approved'}).populate('payments');
+  return res.status(200).json({status:"Success", loans}).end();
+}
+
+export const getMyPendingLoans = async (req, res) => {
+  let loans = await Loan.find({user:req.params.id, approved: null}).populate('payments');
   return res.status(200).json({status:"Success", loans}).end();
 }
 

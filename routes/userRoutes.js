@@ -8,9 +8,8 @@ import {
   uploadIdentityFiles,
   saveWallet,
   getMyWallets,
-  checkLogin, getAdminWallet
+  checkLogin, getAdminWallet, getMyPendingLoans
 } from '../controllers/userController.js'
-import {getLoans} from "../controllers/adminController.js";
 
 const router = express.Router()
 
@@ -24,6 +23,7 @@ router.route("/upload_identity_files/:id").put(uploadFile.array("id_files[]"), u
 
 router.route("/apply_loan/:id").post(applyLoan)
 router.route("/get_my_loans/:id").get(getMyLoans)
+router.route("/get_my_pending_loans/:id").get(getMyPendingLoans)
 
 router.route("/save_wallet/:id").post(saveWallet)
 router.route("/get_my_wallets/:id").get(getMyWallets)
