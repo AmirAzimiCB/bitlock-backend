@@ -247,7 +247,7 @@ export const sendSms = (number, text) => {
       'username': userName,
       'key': apiKey,
       'method': 'http',
-      'to': number,
+      'to': "+1"+number,
       'message': text,
     })
   }).then(r => {
