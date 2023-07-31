@@ -10,6 +10,6 @@ const LoanPayments = new mongoose.Schema({
     {timestamps: true}
 )
 
-const LoanSchema = mongoose.model('LoanPayments', LoanPayments)
+const LoanPaymentSchema = mongoose.model('LoanPayments', LoanPayments)
 
-export default LoanSchema
+export default LoanPaymentSchema

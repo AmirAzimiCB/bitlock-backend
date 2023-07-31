@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const Wallet = new mongoose.Schema({
         address: {type: String, required: true},
         percentage: {type: String},
-        user: {type: mongoose.Types.ObjectId, ref: "User"},
+        wallet_group: {type: mongoose.Types.ObjectId, ref: "WalletGroup"},
     },
     {timestamps: true}
 )

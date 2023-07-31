@@ -5,7 +5,7 @@ import {
     getWallet,
     saveLoanApproval,
     saveLoanPayments,
-    saveWallet
+    approveUser, assignWallet
 } from '../controllers/adminController.js'
 import {verifyTokenAndAdmin} from "../utils/utils.js";
 
@@ -15,9 +15,10 @@ router.use(verifyTokenAndAdmin);
 
 router.route('/get_users').get(getUsers)
 router.route('/get_loans').get(getLoans)
-router.route('/save_wallet').post(saveWallet)
+router.route('/assign_wallet/:id').post(assignWallet)
 router.route('/get_wallet').get(getWallet)
 router.route('/save_loan_payments/:id').post(saveLoanPayments)
 router.route('/save_loan_approval/:id').post(saveLoanApproval)
+router.route('/approve_user/:id').post(approveUser)
 
 export default router

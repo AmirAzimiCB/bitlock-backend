@@ -3,35 +3,27 @@ import * as dotenv from "dotenv";
 import Loan from "../models/Loan.js";
 import AdminWallet from "../models/AdminWallet.js";
 import LoanPayments from "../models/LoanPayments.js";
+import {getPopulatedUsers} from "../utils/utils.js";
 dotenv.config();
 
 export const getUsers = async (req, res) => {
-    let users = await User.find({isAdmin:false}).populate('loans').populate('wallets');
+    let users = await getPopulatedUsers();
     return res.status(200).json({status:"Success", users}).end();
 }
 export const getLoans = async (req, res) => {
     let loans = await Loan.find().populate('user').populate('payments');
     return res.status(200).json({status:"Success", loans}).end();
 }
-
-export const saveWallet = async (req, res) => {
-    if(req.body?._id!=undefined && req.body?._id!=''){
-        await AdminWallet.updateOne({_id:req.body._id},{
-            address:req.body.address,
-        });
-    } else {
-        let adminWallet = new AdminWallet();
-        adminWallet.address = req.body.address
-        adminWallet.save();
-    }
+export const assignWallet = async (req, res) => {
+    await Loan.updateOne({ _id: req.params.id }, {
+        admin_wallet:req.body.admin_wallet
+    })
     return res.status(200).json({status:"Success", result:"Saved"}).end();
 }
-
 export const getWallet = async (req, res) => {
     let wallet = await AdminWallet.findOne()
     return res.status(200).json({status:"Success", wallet}).end();
 }
-
 export const saveLoanPayments = async (req, res) => {
     try {
         await LoanPayments.deleteMany({loan:req.params.id}).then(function(){
@@ -60,11 +52,15 @@ export const saveLoanPayments = async (req, res) => {
         return res.status(500).json(err).end();
     }
 }
-
 export const saveLoanApproval = async (req, res) => {
-    console.log(req.body.approved,req.params.id);
     await Loan.updateOne({_id:req.params.id},{
         approved:req.body.approved,
     });
     return res.status(200).json({status:"Success", result:"Saved"}).end();
+}
+export const approveUser = async (req, res) => {
+    await User.updateOne({_id:req.params.id},{
+        approved:true,
+    });
+    return res.status(200).json({status:"Success", result:"Approved"}).end();
 }

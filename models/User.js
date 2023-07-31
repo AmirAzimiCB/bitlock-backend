@@ -30,6 +30,9 @@ const User = new mongoose.Schema({
         assigned_wallet: {type: String},
         loans: [{type: mongoose.Types.ObjectId, ref: "Loan"}],
         wallets: [{type: mongoose.Types.ObjectId, ref: "Wallet"}],
+        wallet_groups: [{type: mongoose.Types.ObjectId, ref: "WalletGroup"}],
+        banks: [{type: mongoose.Types.ObjectId, ref: "Bank"}],
+        approved: {type: Boolean, default: false},
     },
     {timestamps: true}
 )
@@ -37,4 +40,3 @@ const User = new mongoose.Schema({
 const UserSchema = mongoose.model('User', User)
 
 export default UserSchema
-

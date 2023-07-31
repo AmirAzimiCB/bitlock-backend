@@ -4,10 +4,13 @@ import Loan from "../models/Loan.js";
 import Wallet from "../models/Wallet.js";
 import * as fs from "fs";
 import AdminWallet from "../models/AdminWallet.js";
+import WalletGroup from "../models/WalletGroup.js";
+import Bank from "../models/Bank.js";
+import {getUser} from "../utils/utils.js";
 dotenv.config();
 
 export const checkLogin = async(req, res) => {
-  let user = await User.findOne({_id:req.user.id});
+  let user = await getUser(req.user.id);
   return res.status(200).json({status:"Success", user}).end();
 }
 
@@ -55,9 +58,19 @@ export const updatePersonalInfo = async (req, res) => {
 
 export const updateBankingInfo = async (req, res) => {
   try {
-    await User.updateOne({ _id: req.params.id }, {...req.body});
     let user = await User.findOne({ _id: req.params.id });
-    return res.status(200).json({status:"Success", user:user}).end();
+    if(req.body?.id != undefined){
+        await Bank.updateOne({ _id:req.body.id }, {
+          ...req.body,
+        });
+    } else {
+      let bank = new Bank({...req.body});
+      bank.save();
+      user.banks.push(bank._id);
+      user.save();
+    }
+    user = await getUser(user._id);
+    return res.status(200).json({status:"Success", result:"Saved", user}).end();
   } catch (err) {
     console.log(err);
     return res.status(500).json(err).end();
@@ -118,27 +131,37 @@ export const getMyPendingLoans = async (req, res) => {
 }
 
 export const saveWallet = async (req, res) => {
-  console.log("save+wallet calleed");
   try {
-    await Wallet.deleteMany({user:req.params.id}).then(function(){
-      console.log("Data deleted"); // Success
-    }).catch(function(error){
-      console.log(error); // Failure
-    });
     let user = await User.findOne({ _id: req.params.id });
-    user.wallets=[];
+    let walletGroup = null
+    if(req.body?.id != undefined) {
+      walletGroup = await WalletGroup.findOne({ _id: req.body.id });
+      walletGroup.group_name = req.body.group_name;
+      walletGroup.wallets = [];
+      await Wallet.deleteMany({wallet_group:req.body.id});
+    } else {
+      walletGroup = new WalletGroup(
+          {
+            group_name:req.body.group_name,
+            wallets:[],
+            user
+          }
+      );
+      user.wallet_groups.push(walletGroup._id)
+      user.save();
+    }
     for(let i=0; i<req.body.address.length;i++) {
       const wallet = new Wallet({
         address:req.body.address[i],
         percentage:req.body.percentage[i],
-        user
+        wallet_group:walletGroup._id
       });
       wallet.save();
-      user.wallets.push(wallet._id)
+      walletGroup.wallets.push(wallet._id)
     }
-    user.save();
-    console.log("saved");
-    return res.status(200).json({status:"Success", result:"Saved"}).end();
+    walletGroup.save();
+    user = await getUser(user._id);
+    return res.status(200).json({status:"Success", result:"Saved", user}).end();
   } catch (err) {
     console.log(err);
     return res.status(500).json(err).end();
@@ -146,8 +169,8 @@ export const saveWallet = async (req, res) => {
 }
 
 export const getMyWallets = async (req, res) => {
-  let wallets = await Wallet.find({user:req.params.id});
-  return res.status(200).json({status:"Success", wallets}).end();
+  let walletGroups = await WalletGroup.find({user:req.params.id}).populate('wallets');
+  return res.status(200).json({status:"Success", walletGroups}).end();
 }
 
 export const getAdminWallet = async (req, res) => {

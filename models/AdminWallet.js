@@ -6,6 +6,6 @@ const AdminWallet = new mongoose.Schema({
     {timestamps: true}
 )
 
-const WalletSchema = mongoose.model('AdminWallet', AdminWallet)
+const AdminWalletSchema = mongoose.model('AdminWallet', AdminWallet)
 
-export default WalletSchema
+export default AdminWalletSchema

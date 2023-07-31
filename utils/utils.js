@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import multer from "multer";
 import nodemailer from "nodemailer";
 import fetch from "node-fetch";
+import User from "../models/User.js";
 
 dotenv.config();
 
@@ -27,7 +28,6 @@ export const transporter = nodemailer.createTransport({
     pass: process.env.GMAIL_KEY,
   },
 });
-
 
 export let getExtension = (filename) => {
   return filename.split('.').pop();
@@ -275,3 +275,24 @@ export  const generateOTP = (length = 4) => {
 
   return otp
 }
+
+export let getUser = async (id) => {
+  let user = await User.findOne({_id: id}).populate({
+    path: 'wallet_groups',
+    populate: {
+      path: "wallets"
+    }
+  }).populate('banks');
+  return user;
+}
+
+export let getPopulatedUsers = async () => {
+  let user = await User.find({isAdmin:false}).populate({
+    path: 'wallet_groups',
+    populate: {
+      path: "wallets"
+    }
+  }).populate('banks').populate('loans');
+  return user;
+}
+

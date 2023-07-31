@@ -3,11 +3,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import * as dotenv from "dotenv";
-import {generateOTP, sendSms} from "../utils/utils.js";
-import AdminWallet from "../models/AdminWallet.js";
+import {generateOTP, getUser, sendSms} from "../utils/utils.js";
 
 dotenv.config();
-
 
 export const registerUser = async (req, res) => {
     try {
@@ -80,9 +78,10 @@ export const loginUser = async (req, res) => {
                         isAdmin: user.isAdmin,
                     },
                     process.env.JWT_SEC, {
-                        expiresIn: "3d"
+                        expiresIn: "1d"
                     }
                 );
+                user = await getUser(user._id);
                 res.status(200).json({
                     status: "Success",
                     result: {
