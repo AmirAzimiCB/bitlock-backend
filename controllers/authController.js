@@ -275,3 +275,12 @@ export const verifyOTP = async (req, res) => {
         res.status(500).json(err);
     }
 }
+
+export const resendOtp = async (req, res) => {
+    let genOtp = generateOTP(4);
+    await User.updateOne({_id:req.params.id},{
+        otp:genOtp,
+    });
+    sendSms(req.body.phone_number, `Welcome and thank you for signing up to BitLoc. Your 4 Digit OTP Code is ${genOtp}`)
+    return res.status(200).json({status:"Success", result:"Sent"}).end();
+}
