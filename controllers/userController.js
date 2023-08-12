@@ -7,13 +7,13 @@ import AdminWallet from "../models/AdminWallet.js";
 import WalletGroup from "../models/WalletGroup.js";
 import Bank from "../models/Bank.js";
 import {getUser} from "../utils/utils.js";
+import LoanPayments from "../models/LoanPayments.js";
 dotenv.config();
 
 export const checkLogin = async(req, res) => {
   let user = await getUser(req.user.id);
   return res.status(200).json({status:"Success", user}).end();
 }
-
 export const updatePersonalInfo = async (req, res) => {
   let gid= [];
   if(req.files){
@@ -55,7 +55,6 @@ export const updatePersonalInfo = async (req, res) => {
     return res.status(500).json(err).end();
   }
 };
-
 export const updateBankingInfo = async (req, res) => {
   try {
     let user = await User.findOne({ _id: req.params.id });
@@ -76,7 +75,6 @@ export const updateBankingInfo = async (req, res) => {
     return res.status(500).json(err).end();
   }
 };
-
 export const applyLoan = async (req, res) => {
   console.log(req.body);
   try {
@@ -94,7 +92,6 @@ export const applyLoan = async (req, res) => {
     return res.status(500).json(err).end();
   }
 }
-
 export const uploadIdentityFiles = async (req, res) => {
   let gid= [];
   if(req.files){
@@ -119,17 +116,14 @@ export const uploadIdentityFiles = async (req, res) => {
     return res.status(200).json({status: "Success", user: user}).end();
   }
 };
-
 export const getMyLoans = async (req, res) => {
   let loans = await Loan.find({user:req.params.id, approved: 'Approved'}).populate('payments');
   return res.status(200).json({status:"Success", loans}).end();
 }
-
 export const getMyPendingLoans = async (req, res) => {
   let loans = await Loan.find({user:req.params.id, approved: null}).populate('payments');
   return res.status(200).json({status:"Success", loans}).end();
 }
-
 export const saveWallet = async (req, res) => {
   try {
     let user = await User.findOne({ _id: req.params.id });
@@ -167,13 +161,17 @@ export const saveWallet = async (req, res) => {
     return res.status(500).json(err).end();
   }
 }
-
 export const getMyWallets = async (req, res) => {
   let walletGroups = await WalletGroup.find({user:req.params.id}).populate('wallets');
   return res.status(200).json({status:"Success", walletGroups}).end();
 }
-
 export const getAdminWallet = async (req, res) => {
   let wallet = await AdminWallet.findOne()
   return res.status(200).json({status:"Success", wallet}).end();
+}
+export const savePaymentPaid = async (req, res) => {
+  await LoanPayments.updateOne({_id:req.params.id},{
+    paid:req.body.paid,
+  });
+  return res.status(200).json({status:"Success", result:"Saved"}).end();
 }
