@@ -64,3 +64,16 @@ export const approveUser = async (req, res) => {
     });
     return res.status(200).json({status:"Success", result:"Approved"}).end();
 }
+export const savePaymentCheck = async (req, res) => {
+    await LoanPayments.updateOne({_id:req.params.id},{
+        check:req.body.check,
+    });
+    return res.status(200).json({status:"Success", result:"Saved"}).end();
+}
+
+export const savePaymentNotes = async (req, res) => {
+    await LoanPayments.updateOne({_id:req.params.id},{
+        notes:req.body.notes,
+    });
+    return res.status(200).json({status:"Success", result:"Saved"}).end();
+}
