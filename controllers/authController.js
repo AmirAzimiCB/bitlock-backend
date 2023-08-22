@@ -281,6 +281,9 @@ export const resendOtp = async (req, res) => {
     await User.updateOne({_id:req.params.id},{
         otp:genOtp,
     });
-    sendSms(req.body.phone_number, `Welcome and thank you for signing up to BitLoc. Your 4 Digit OTP Code is ${genOtp}`)
+    const user = await User.findOne({
+        _id: req.params._id,
+    });
+    sendSms(user.phone_number, `Welcome and thank you for signing up to BitLoc. Your 4 Digit OTP Code is ${genOtp}`)
     return res.status(200).json({status:"Success", result:"Sent"}).end();
 }
