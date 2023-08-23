@@ -4,6 +4,7 @@ import Loan from "../models/Loan.js";
 import AdminWallet from "../models/AdminWallet.js";
 import LoanPayments from "../models/LoanPayments.js";
 import {getPopulatedUsers} from "../utils/utils.js";
+import fs from "fs";
 dotenv.config();
 
 export const getUsers = async (req, res) => {
@@ -70,10 +71,25 @@ export const savePaymentCheck = async (req, res) => {
     });
     return res.status(200).json({status:"Success", result:"Saved"}).end();
 }
-
 export const savePaymentNotes = async (req, res) => {
     await LoanPayments.updateOne({_id:req.params.id},{
         notes:req.body.notes,
     });
     return res.status(200).json({status:"Success", result:"Saved"}).end();
 }
+export const deleteUser = async (req, res) => {
+    await User.deleteOne({_id:req.body.id});
+    await Loan.deleteMany({user:req.body.id});
+    return res.status(200).json({status:"Success", result:"Deleted"}).end();
+}
+export const updatePersonalInfo = async (req, res) => {
+    try {
+        await User.updateOne({_id: req.params.id}, {
+            ...req.body,
+        });
+        return res.status(200).json({status: "Success", result: "Saved"}).end();
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json(err).end();
+    }
+};
