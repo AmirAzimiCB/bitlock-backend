@@ -174,11 +174,31 @@ export const savePaymentPaid = async (req, res) => {
     await LoanPayments.updateOne({_id: req.params.id}, {
         paid: req.body.paid,
     });
-    if (req.body?._id){
-        await Loan.updateOne({_id:req.body?._id},{
-            collateral_amount:req?.body?.collateral_amount
+    if (req.body?._id) {
+        await Loan.updateOne({_id: req.body?._id}, {
+            collateral_amount: req?.body?.collateral_amount
         })
     }
     console.log("loan_id", req.body?._id)
     return res.status(200).json({status: "Success", result: "Saved"}).end();
+}
+
+export const changePassword = async (req, res) => {
+    try {
+        let existing_user = await User.findOne({_id: req.params.id});
+        const passwordCorrect = await bcrypt.compare(
+            req.body.old_password,
+            existing_user.password
+        );
+        if (passwordCorrect) {
+            existing_user.password = bcrypt.hashSync(req.body.new_password, 2)
+            return res.status(200).json({status: "Success", result: "Password Changed"}).end();
+        } else {
+            return res.status(200).json({status: "Failure", result: "Invalid Password"}).end();
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 }

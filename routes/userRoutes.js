@@ -8,7 +8,7 @@ import {
   uploadIdentityFiles,
   saveWallet,
   getMyWallets,
-  checkLogin, getAdminWallet, getMyPendingLoans, savePaymentPaid
+  checkLogin, getAdminWallet, getMyPendingLoans, savePaymentPaid, changePassword
 } from '../controllers/userController.js'
 
 const router = express.Router()
@@ -26,6 +26,6 @@ router.route("/save_wallet/:id").post(saveWallet)
 router.route("/get_my_wallets/:id").get(getMyWallets)
 router.route("/get_admin_wallet/").get(getAdminWallet)
 router.route("/save_payment_paid/:id").post(savePaymentPaid)
-
+router.route("/change_password/:id").post(changePassword)
 
 export default router

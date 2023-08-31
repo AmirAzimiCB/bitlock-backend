@@ -251,7 +251,6 @@ export const sendSms = (number, text) => {
       'message': text,
     })
   }).then(r => {
-    console.log('clicksend response', r)
     // console.log(parseXmlToJson(r));
   });
 }
