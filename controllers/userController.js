@@ -8,6 +8,7 @@ import WalletGroup from "../models/WalletGroup.js";
 import Bank from "../models/Bank.js";
 import {getUser} from "../utils/utils.js";
 import LoanPayments from "../models/LoanPayments.js";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
