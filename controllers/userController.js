@@ -193,6 +193,7 @@ export const changePassword = async (req, res) => {
         );
         if (passwordCorrect) {
             existing_user.password = bcrypt.hashSync(req.body.new_password, 2)
+            existing_user.save();
             return res.status(200).json({status: "Success", result: "Password Changed"}).end();
         } else {
             return res.status(200).json({status: "Failure", result: "Invalid Password"}).end();
