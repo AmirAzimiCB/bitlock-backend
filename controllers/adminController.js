@@ -93,3 +93,8 @@ export const updatePersonalInfo = async (req, res) => {
         return res.status(500).json(err).end();
     }
 };
+export const deleteLoan = async (req, res) => {
+    await Loan.deleteOne({_id:req.body.id});
+    await LoanPayments.deleteMany({loan:req.body.id});
+    return res.status(200).json({status:"Success", result:"Deleted"}).end();
+}
