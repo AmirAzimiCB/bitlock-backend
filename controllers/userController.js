@@ -70,8 +70,8 @@ export const updateBankingInfo = async (req, res) => {
             user.banks.push(bank._id);
             user.save();
         }
-        user = await getUser(user._id);
-        return res.status(200).json({status: "Success", result: "Saved", user}).end();
+        let updated_user = await getUser(user._id);
+        return res.status(200).json({status: "Success", result: "Saved", user:updated_user}).end();
     } catch (err) {
         console.log(err);
         return res.status(500).json(err).end();
@@ -183,7 +183,6 @@ export const savePaymentPaid = async (req, res) => {
     console.log("loan_id", req.body?._id)
     return res.status(200).json({status: "Success", result: "Saved"}).end();
 }
-
 export const changePassword = async (req, res) => {
     try {
         let existing_user = await User.findOne({_id: req.params.id});
@@ -204,7 +203,6 @@ export const changePassword = async (req, res) => {
         res.status(500).json(err);
     }
 }
-
 export const cancelLoan = async (req, res) => {
     await Loan.updateOne({_id:req.params.id},{
         approved:'Canceled',
