@@ -66,12 +66,12 @@ export const updateBankingInfo = async (req, res) => {
             });
         } else {
             let bank = new Bank({...req.body});
-            bank.save();
+            await bank.save();
             user.banks.push(bank._id);
-            user.save();
+            await user.save();
         }
-        let updated_user = await getUser(user._id);
-        return res.status(200).json({status: "Success", result: "Saved", user:updated_user}).end();
+        user = await getUser(user._id);
+        return res.status(200).json({status: "Success", result: "Saved", user}).end();
     } catch (err) {
         console.log(err);
         return res.status(500).json(err).end();
