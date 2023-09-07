@@ -204,3 +204,10 @@ export const changePassword = async (req, res) => {
         res.status(500).json(err);
     }
 }
+
+export const cancelLoan = async (req, res) => {
+    await Loan.updateOne({_id:req.params.id},{
+        approved:'Canceled',
+    });
+    return res.status(200).json({status:"Success", result:"Saved"}).end();
+}
