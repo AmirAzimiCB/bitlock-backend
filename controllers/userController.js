@@ -155,7 +155,7 @@ export const saveWallet = async (req, res) => {
             wallet.save();
             walletGroup.wallets.push(wallet._id)
         }
-        walletGroup.save();
+     await  walletGroup.save();
         user = await getUser(user._id);
         return res.status(200).json({status: "Success", result: "Saved", user}).end();
     } catch (err) {
@@ -201,6 +201,45 @@ export const changePassword = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
+    }
+}
+
+
+export const deleteBank = async (req, res) => {
+    try {
+        console.log("bank_id", req.params.id)
+        const loansCount = await Loan.countDocuments({bank: req.params.id});
+        if (loansCount > 0) {
+            // Loans exist, update banking status
+            await Bank.findOneAndUpdate({_id: req.params.id}, {status: 0});
+        } else {
+            // No loans, delete banking information
+            await Bank.findByIdAndDelete({_id: req.params.id});
+        }
+        let user = await getUser(req.body._id);
+        return res.status(200).json({status: "Success", user}).end();
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+export const deleteWallet = async (req, res) => {
+    try {
+        console.log("bank_id", req.params.id)
+        const loansCount = await Loan.countDocuments({wallet_group: req.params.id});
+        let user;
+        if (loansCount > 0) {
+            // Loans exist, update banking status
+            await WalletGroup.findOneAndUpdate({_id: req.params.id}, {status: 0});
+            user = await getUser(req.body._id);
+        } else {
+            // No loans, delete banking information
+            await WalletGroup.findByIdAndDelete({_id: req.params.id});
+            user = await getUser(req.body._id);
+        }
+        return res.status(200).json({status: "Success", user}).end();
+    } catch (error) {
+        console.error('Error:', error);
     }
 }
 export const cancelLoan = async (req, res) => {

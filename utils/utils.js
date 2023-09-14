@@ -276,12 +276,18 @@ export  const generateOTP = (length = 4) => {
 }
 
 export let getUser = async (id) => {
-  let user = await User.findOne({_id: id}).populate({
-    path: 'wallet_groups',
-    populate: {
-      path: "wallets"
-    }
-  }).populate('banks');
+  let user = await User.findOne({_id: id})
+      .populate({
+        path: 'wallet_groups',
+        populate: {
+          path: 'wallets'
+        },
+        match: { status: 1 } // Only populate wallet_groups with status 1
+      })
+      .populate({
+        path: 'banks',
+        match: { status: 1 } // Only populate banks with status 1
+      });
   return user;
 }
 

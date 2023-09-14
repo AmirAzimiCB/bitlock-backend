@@ -7,6 +7,7 @@ const Bank = new mongoose.Schema({
         branch_address: {type: String},
         main_account_currency: {type: String},
         account_name: {type: String},
+        status: {type: Number, default: 1},
     },
     {timestamps: true}
 )
