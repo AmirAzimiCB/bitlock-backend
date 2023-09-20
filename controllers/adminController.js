@@ -12,7 +12,12 @@ export const getUsers = async (req, res) => {
     return res.status(200).json({status:"Success", users}).end();
 }
 export const getLoans = async (req, res) => {
-    let loans = await Loan.find().populate('user').populate('payments');
+    let loans = await Loan.find().populate('user').populate('payments') .populate({
+        path: 'wallet_group',
+        populate: {
+            path: 'wallets'
+        }
+    }).populate('bank');
     return res.status(200).json({status:"Success", loans}).end();
 }
 export const assignWallet = async (req, res) => {
