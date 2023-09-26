@@ -225,7 +225,6 @@ export const deleteBank = async (req, res) => {
 
 export const deleteWallet = async (req, res) => {
     try {
-        console.log("bank_id", req.params.id)
         const loansCount = await Loan.countDocuments({wallet_group: req.params.id});
         let user;
         if (loansCount > 0) {
@@ -243,8 +242,8 @@ export const deleteWallet = async (req, res) => {
     }
 }
 export const cancelLoan = async (req, res) => {
-    await Loan.updateOne({_id:req.params.id},{
-        approved:'Canceled',
+    await Loan.updateOne({_id:req?.body?.id},{
+        approved:req?.body?.pay_type,
     });
     return res.status(200).json({status:"Success", result:"Saved"}).end();
 }

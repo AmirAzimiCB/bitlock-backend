@@ -29,6 +29,6 @@ router.route("/save_payment_paid/:id").post(savePaymentPaid)
 router.route("/change_password/:id").post(changePassword)
 router.route("/delete_bank/:id").post(deleteBank)
 router.route("/delete_wallet/:id").post(deleteWallet)
-router.route('/cancel_loan/:id').get(cancelLoan)
+router.route('/cancel_loan/').post(cancelLoan)
 
 export default router
