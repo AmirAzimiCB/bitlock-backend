@@ -4,6 +4,7 @@ const Loan = new mongoose.Schema({
         borrow_amount: {type: String, required: true},
         currency_type: {type: String, required: true},
         collateral_amount: {type: String, required: true},
+        ltv_start: {type: String, required: true},
         term_length: {type: String},
         loan_type: {type: String},
         category: {type: String},
