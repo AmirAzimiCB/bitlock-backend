@@ -14,6 +14,7 @@ const User = new mongoose.Schema({
         address_1: {type: String},
         address_2: {type: String},
         address_3: {type: String},
+        address_4: {type: String},
         state: {type: String},
         country: {type: String},
         citizenship: {type: String},
