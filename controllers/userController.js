@@ -6,7 +6,7 @@ import * as fs from "fs";
 import AdminWallet from "../models/AdminWallet.js";
 import WalletGroup from "../models/WalletGroup.js";
 import Bank from "../models/Bank.js";
-import {getUser} from "../utils/utils.js";
+import {getUser, sendEmail} from "../utils/utils.js";
 import LoanPayments from "../models/LoanPayments.js";
 import bcrypt from "bcrypt";
 
@@ -135,6 +135,7 @@ export const saveWallet = async (req, res) => {
             walletGroup.group_name = req.body.group_name;
             walletGroup.wallets = [];
             await Wallet.deleteMany({wallet_group: req.body.id});
+            sendEmail(req?.body?.email, req?.body, 'wallet_address_change.ejs', 'Bitcoin Wallet Address Change - Important Update')
         } else {
             walletGroup = new WalletGroup(
                 {
@@ -155,7 +156,7 @@ export const saveWallet = async (req, res) => {
             wallet.save();
             walletGroup.wallets.push(wallet._id)
         }
-     await  walletGroup.save();
+        await walletGroup.save();
         user = await getUser(user._id);
         return res.status(200).json({status: "Success", result: "Saved", user}).end();
     } catch (err) {
@@ -242,8 +243,12 @@ export const deleteWallet = async (req, res) => {
     }
 }
 export const cancelLoan = async (req, res) => {
-    await Loan.updateOne({_id:req?.body?.id},{
-        approved:req?.body?.pay_type,
+    await Loan.updateOne({_id: req?.body?.id}, {
+        approved: req?.body?.pay_type,
     });
-    return res.status(200).json({status:"Success", result:"Saved"}).end();
+    return res.status(200).json({status: "Success", result: "Saved"}).end();
+}
+
+export const send_email = () => {
+    return res.status(200).json({status: "Success", result: "Saved"}).end();
 }

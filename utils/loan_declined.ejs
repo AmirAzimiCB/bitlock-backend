@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            min-width: 340px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #1d2a1d;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-container {
+            background-color: #afc5b0;
+            padding: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card p {
+            color: #333;
+        }
+
+        .card > p.title {
+            font-size: 20px;
+            border-bottom: 1px solid black;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+
+        .footer {
+            background-color: #1d2a1d;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #fff;
+            margin: 5px 0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="https://www.bitloc.ca/images/logo_email.png"/>
+    </div>
+
+    <div class="card-container">
+        <div class="card">
+            <p class="title">Loan Declined - We Value Your Application with BitLoc</p>
+            <p>Dear <%= name %>,<br>
+                Thank you for your recent loan application with BitLoc. We sincerely appreciate the time and effort you
+                put into applying for a loan with us.
+                <br><br>
+                After careful consideration and a thorough review of your application, we regret to inform you that we
+                are unable to approve your loan request at this time. We understand that this may be disappointing news,
+                and we want to assure you that we have carefully evaluated your application based on our lending
+                criteria.
+                <br><br>
+                Please know that our decision is not a reflection of your creditworthiness or financial standing. If you
+                have any questions or require any additional information, please do not hesitate to contact us. Our
+                dedicated team is ready to assist you and provide any insights that might be helpful for future
+                applications.
+                <br><br>
+                Thank you for considering BitLoc for your financial needs. We wish you the best in your endeavours.
+                <br><br>
+                Sincerely,
+                The BitLoc Team
+            </p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2023 BitLoc Inc. ™BitLoc</p>
+        <p>225 King Street West, Suite 1000<br>Toronto, Ontario, Canada M5V 3M2</p>
+        <a href="https://facebook.com">Facebook</a>
+        <a href="https://instagram.com">Instagram</a>
+        <a href="https://linkedin.com">LinkedIn</a>
+        <a href="https://twitter.com">Twitter</a>
+    </div>
+</div>
+</body>
+</html>

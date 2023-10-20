@@ -8,7 +8,15 @@ import {
   uploadIdentityFiles,
   saveWallet,
   getMyWallets,
-  checkLogin, getAdminWallet, getMyPendingLoans, savePaymentPaid, changePassword, deleteBank, deleteWallet, cancelLoan
+  checkLogin,
+  getAdminWallet,
+  getMyPendingLoans,
+  savePaymentPaid,
+  changePassword,
+  deleteBank,
+  deleteWallet,
+  cancelLoan,
+  send_email
 } from '../controllers/userController.js'
 
 const router = express.Router()
@@ -30,5 +38,6 @@ router.route("/change_password/:id").post(changePassword)
 router.route("/delete_bank/:id").post(deleteBank)
 router.route("/delete_wallet/:id").post(deleteWallet)
 router.route('/cancel_loan/').post(cancelLoan)
+router.route("/send_email/").get(send_email)
 
 export default router

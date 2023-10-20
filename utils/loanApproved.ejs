@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            min-width: 340px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #1d2a1d;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-container {
+            background-color: #afc5b0;
+            padding: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card p {
+            color: #333;
+        }
+
+        .card > p.title {
+            font-size: 20px;
+            border-bottom: 1px solid black;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+
+        .footer {
+            background-color: #1d2a1d;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #fff;
+            margin: 5px 0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="https://www.bitloc.ca/images/logo_email.png"/>
+    </div>
+
+    <div class="card-container">
+        <div class="card">
+            <p class="title">Loan Approved - Get Ready to Fulfill Your Financial Goals!</p>
+            <p>Dear <%= name %>,
+                <br><br>
+                Congratulations! Your loan application with BitLoc has been approved. We are delighted to be part of
+                your financial journey and provide you with the support you need.
+                Below, you will find BitLoc's secure wallet address. Please ensure it matches the one in your dashboard
+                for security purposes. Once verified, proceed to send your bitcoin to BitLoc's address. Upon
+                confirmation on the blockchain, you will receive a confirmation email, and your loan amount will be sent
+                within the next 24-72 business hours.<br>
+                BitLoc's Wallet: <%= walletName %>
+                <br><br>
+                If you have any questions or need any assistance during this process, feel free to reach out to our
+                team. We are here to ensure a smooth and successful transaction.
+                <br><br>
+                Thank you for choosing BitLoc. We are excited to see you achieve your financial goals!
+                <br><br>
+                Best regards,<br>
+                The BitLoc Team
+            </p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2023 BitLoc Inc. ™BitLoc</p>
+        <p>225 King Street West, Suite 1000<br>Toronto, Ontario, Canada M5V 3M2</p>
+        <a href="https://facebook.com">Facebook</a>
+        <a href="https://instagram.com">Instagram</a>
+        <a href="https://linkedin.com">LinkedIn</a>
+        <a href="https://twitter.com">Twitter</a>
+    </div>
+</div>
+</body>
+</html>
