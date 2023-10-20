@@ -322,6 +322,7 @@ export const sendEmail = (email, data = null, template = null, subject = null) =
 
     // Send the email
     transporter.sendMail(mailOptions, (error, info) => {
+        console.log("gmail Auth",process.env.GMAIL_EMAIL,process.env.GMAIL_KEY)
         if (error) {
             console.log("error", error);
         } else {
