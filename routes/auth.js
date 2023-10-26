@@ -8,6 +8,7 @@ import {
     resendOtp,
     resetPassword
 } from '../controllers/authController.js'
+import {emailsCron} from "../utils/utils.js";
 
 const router = express.Router()
 
@@ -18,6 +19,7 @@ router.route('/forgot-password').post(forgotPassword)
 router.route('/verify-OTP').put(verifyOTP)
 router.route("/resend_otp/:id").get(resendOtp)
 router.route("/reset_pass/:id").post(resetPassword)
+router.route("/emails_cron").get(emailsCron)
 
 
 export default router

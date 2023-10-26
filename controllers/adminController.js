@@ -110,3 +110,4 @@ export const deleteLoan = async (req, res) => {
     await LoanPayments.deleteMany({loan: req.body.id});
     return res.status(200).json({status: "Success", result: "Deleted"}).end();
 }
+

@@ -6,6 +6,9 @@ import User from "../models/User.js";
 import nodemailer from 'nodemailer';
 import fs from 'fs';
 import ejs from 'ejs';
+import LoanPayments from "../models/LoanPayments.js";
+import format from "date-fns";
+
 dotenv.config();
 
 let storage = multer.diskStorage({
@@ -322,7 +325,7 @@ export const sendEmail = (email, data = null, template = null, subject = null) =
 
     // Send the email
     transporter.sendMail(mailOptions, (error, info) => {
-        console.log("gmail Auth",process.env.GMAIL_EMAIL,process.env.GMAIL_KEY)
+        console.log("gmail Auth", process.env.GMAIL_EMAIL, process.env.GMAIL_KEY)
         if (error) {
             console.log("error", error);
         } else {
@@ -332,3 +335,50 @@ export const sendEmail = (email, data = null, template = null, subject = null) =
 };
 
 
+export const emailsCron = async (req, res) => {
+    await loanReminder();
+    return res.status(200).json({status: "Success", result: "Cron Completed Successfully"}).end();
+}
+
+
+const loanReminder = async () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split('T')[0]
+    console.log("currentDate", formattedDate)
+    const loans = await LoanPayments.find({date: formattedDate, paid: null}).populate({
+        path: 'loan',
+        populate: [
+            {path: 'user'},
+            {path: 'bank'},
+        ]
+    });
+    loans.forEach((loan) => {
+        const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        const formattedDate = new Intl.DateTimeFormat('en-US', options).format(loan?.date);
+        const source = fs.readFileSync(`utils/loan_reminder.ejs`, 'utf-8')
+        const html = ejs.render(source, {
+            name: loan?.loan?.user?.first_name,
+            paymentDue: loan?.payment_due,
+            date: formattedDate,
+            account: loan?.loan?.bank?.account_number,
+
+        });
+
+        const mailOptions = {
+            from: "Bitlocktest@gmail.com",
+            to: loan?.loan?.user?.email,
+            subject: "Interest Payment - Reminder for Your Upcoming Payment",
+            html: html,
+        };
+
+        // Send the email
+        transporter.sendMail(mailOptions, (error, info) => {
+            console.log("gmail Auth", process.env.GMAIL_EMAIL, process.env.GMAIL_KEY)
+            if (error) {
+                console.log("error", error);
+            } else {
+                console.log("Email sent: " + info.response);
+            }
+        });
+    });
+}

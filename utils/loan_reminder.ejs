@@ -72,17 +72,24 @@
 
     <div class="card-container">
         <div class="card">
-            <p class="title">Inquiry Email - Thank You for Reaching Out to BitLoc</p>
-            <p>Dear [Customer Name],
+            <p class="title">Interest Payment - Reminder for Your Upcoming Payment</p>
+            <p>Dear <%= name %>,
                 <br><br>
-                Thank you for reaching out to us with your inquiry. Our team has received your message, and we are
-                currently reviewing the details to provide you with the best assistance possible.
-                Rest assured, we prioritize customer satisfaction and aim to address your inquiry promptly. Our support
-                team will be in touch with you shortly to discuss your concerns further.
-                If you have any additional information or wish to provide further context to your inquiry, please do not
-                hesitate to reply to this email.
+                We hope this email finds you well. We are writing to remind you that the monthly interest payment for
+                your loan with BitLoc is due soon. We want to ensure you have the necessary information to fulfill your
+                payment obligations promptly.
                 <br><br>
-                Thank you for choosing BitLoc. We value your trust in our services.
+                As a responsible borrower, timely interest payments are essential to maintaining a positive lending
+                relationship. Please find below the details for your upcoming interest payment:<br>
+                Loan Account Number: <%= account %><br>
+                Interest Amount Due: $<%= paymentDue %> <br>
+                Due Date: <%= date %>
+                <br><br>
+                If you encounter any challenges or have questions about the payment process, please do not hesitate to
+                contact our dedicated support team. We are available to assist you and provide any necessary guidance.
+                <br><br>
+                Thank you for choosing BitLoc for your financial needs. We appreciate your timely cooperation and look
+                forward to serving you further.
                 <br><br>
                 Best regards,<br>
                 The BitLoc Team

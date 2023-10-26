@@ -12,11 +12,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^3.0.1"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
+    "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
