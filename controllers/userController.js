@@ -9,6 +9,7 @@ import Bank from "../models/Bank.js";
 import {getUser, sendEmail} from "../utils/utils.js";
 import LoanPayments from "../models/LoanPayments.js";
 import bcrypt from "bcrypt";
+import speakeasy, {generateSecret} from "speakeasy";
 
 dotenv.config();
 
@@ -251,4 +252,49 @@ export const cancelLoan = async (req, res) => {
 
 export const send_email = () => {
     return res.status(200).json({status: "Success", result: "Saved"}).end();
+}
+
+export const get_2fa_secret = async (req, res) => {
+    let user = await getUser(req.params.id);
+    let secret = speakeasy.generateSecret({
+        name:"Bitloc 2FA",
+    })
+    await User.updateOne({_id: req.params.id}, {
+        auth2FaSecret: secret.hex,
+    });
+    return res.status(200).json({status: "Success", result: "Verify Secret", "secret":secret}).end();
+}
+export const verify_2fa_code = async (req, res) => {
+    let user = await getUser(req.body.id);
+    let verified = speakeasy.totp.verify({
+        secret:user.auth2FaSecret,
+        encoding:'hex',
+        token: req.body.code,
+    })
+    if(verified){
+        await User.updateOne({_id: req.body.id}, {
+            auth2FaEnabled: true,
+        });
+        return res.status(200).json({status: "Success", result: "2 Factor Authentication Enabled"}).end();
+    } else {
+        return res.status(200).json({status: "failure", result: "Unable to verify"}).end();
+    }
+}
+
+export const disable_2fa = async (req, res) => {
+    let user = await getUser(req.body.id);
+    let verified = speakeasy.totp.verify({
+        secret:user.auth2FaSecret,
+        encoding:'hex',
+        token: req.body.code,
+    })
+    if(verified){
+        await User.updateOne({_id: req.body.id}, {
+            auth2FaEnabled: false,
+            auth2FaSecret: "",
+        });
+        return res.status(200).json({status: "Success", result: "2 Factor Authentication Disabled"}).end();
+    } else {
+        return res.status(200).json({status: "failure", result: "Unable to verify"}).end();
+    }
 }

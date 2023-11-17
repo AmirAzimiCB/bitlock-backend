@@ -34,6 +34,8 @@ const User = new mongoose.Schema({
         wallet_groups: [{type: mongoose.Types.ObjectId, ref: "WalletGroup"}],
         banks: [{type: mongoose.Types.ObjectId, ref: "Bank"}],
         approved: {type: Boolean, default: false},
+        auth2FaEnabled: {type: Boolean, default: false},
+        auth2FaSecret: {type: String, default: null},
     },
     {timestamps: true}
 )

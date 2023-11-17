@@ -16,7 +16,10 @@ import {
   deleteBank,
   deleteWallet,
   cancelLoan,
-  send_email
+  send_email,
+  get_2fa_secret,
+  verify_2fa_code,
+  disable_2fa
 } from '../controllers/userController.js'
 
 const router = express.Router()
@@ -24,6 +27,9 @@ const router = express.Router()
 router.use(verifyToken);
 
 router.route("/check_login").get(checkLogin)
+router.route("/get_2fa_secret/:id").get(get_2fa_secret)
+router.route("/verify_2fa_code/").post(verify_2fa_code)
+router.route("/disable_2fa/").post(disable_2fa)
 router.route("/update_personal_info/:id").put(uploadFile.array("file[]"), updatePersonalInfo)
 router.route("/update_banking_info/:id").put(updateBankingInfo)
 router.route("/upload_identity_files/:id").put(uploadFile.array("id_files[]"), uploadIdentityFiles)

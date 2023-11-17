@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import {generateOTP, getUser, sendEmail, sendSms} from "../utils/utils.js";
+import speakeasy from "speakeasy";
 
 dotenv.config();
 
@@ -82,7 +83,15 @@ export const loginUser = async (req, res) => {
                         expiresIn: "1d"
                     }
                 );
-                user = await getUser(user._id);
+                if(user?.auth2FaEnabled === true){
+                    res.status(200).json({
+                        status: "Success",
+                        result: {
+                            user: user,
+                        }
+                    });
+                    return;
+                }
                 res.status(200).json({
                     status: "Success",
                     result: {
@@ -98,6 +107,34 @@ export const loginUser = async (req, res) => {
         res.status(500).json(err);
     }
 };
+
+export const verify_otp = async (req, res) => {
+    let user = await getUser(req.body.id);
+    let verified = speakeasy.totp.verify({
+        secret: user.auth2FaSecret,
+        encoding: 'hex',
+        token: req.body.code,
+    })
+    if (verified) {
+        const accessToken = jwt.sign({
+                id: user._id,
+                isAdmin: user.isAdmin,
+            },
+            process.env.JWT_SEC, {
+                expiresIn: "1d"
+            }
+        );
+        res.status(200).json({
+            status: "Success",
+            result: {
+                user: user,
+                accessToken: accessToken
+            }
+        });
+    } else {
+        return res.status(200).json({status: "failure", error: "Unable to verify"}).end();
+    }
+}
 
 export const forgotPassword = async (req, res) => {
     try {

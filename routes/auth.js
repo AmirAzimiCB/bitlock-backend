@@ -6,7 +6,7 @@ import {
     checkEmailPhone,
     verifyOTP,
     resendOtp,
-    resetPassword
+    resetPassword, verify_otp
 } from '../controllers/authController.js'
 import {emailsCron} from "../utils/utils.js";
 
@@ -14,6 +14,7 @@ const router = express.Router()
 
 router.route('/register').post(registerUser)
 router.route('/login').post(loginUser)
+router.route('/verify_otp').post(verify_otp)
 router.route('/check_email_phone').post(checkEmailPhone)
 router.route('/forgot-password').post(forgotPassword)
 router.route('/verify-OTP').put(verifyOTP)

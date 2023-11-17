@@ -7,7 +7,7 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import ejs from 'ejs';
 import LoanPayments from "../models/LoanPayments.js";
-import format from "date-fns";
+import speakeasy from "speakeasy";
 
 dotenv.config();
 
@@ -363,15 +363,12 @@ const loanReminder = async () => {
             account: loan?.loan?.bank?.account_number,
 
         });
-
         const mailOptions = {
             from: "Bitlocktest@gmail.com",
             to: loan?.loan?.user?.email,
             subject: "Interest Payment - Reminder for Your Upcoming Payment",
             html: html,
         };
-
-        // Send the email
         transporter.sendMail(mailOptions, (error, info) => {
             console.log("gmail Auth", process.env.GMAIL_EMAIL, process.env.GMAIL_KEY)
             if (error) {
