@@ -75,6 +75,7 @@ export const loginUser = async (req, res) => {
                 user.password
             );
             if (passwordCorrect) {
+                user = await getUser(user._id)
                 const accessToken = jwt.sign({
                         id: user._id,
                         isAdmin: user.isAdmin,
