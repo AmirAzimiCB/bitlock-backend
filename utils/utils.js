@@ -26,7 +26,9 @@ export let uploadFile = multer({
 });
 
 export const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
     auth: {
         user: process.env.GMAIL_EMAIL,
         pass: process.env.GMAIL_KEY,
@@ -39,7 +41,7 @@ export let getExtension = (filename) => {
 
 export const forgotPasswordMail = (req, user) => {
     return {
-        from: "Bitlocktest@gmail.com",
+        from: "info@bitloc.io",
         to: req.body.email,
         subject: "Forgot Password",
         html: `
@@ -57,7 +59,7 @@ export const forgotPasswordMail = (req, user) => {
 // new users and child accounts welcome email
 export const sendSignupEmail = (email) => {
     const mailOptions = {
-        from: "Bitlocktest@gmail.com",
+        from: "info@bitloc.io",
         to: email,
         subject: "Welcome to Bitlock",
         html: `
@@ -317,7 +319,7 @@ export const sendEmail = (email, data = null, template = null, subject = null) =
     });
 
     const mailOptions = {
-        from: "Bitlocktest@gmail.com",
+        from: "info@bitloc.io",
         to: email,
         subject: subject,
         html: html
