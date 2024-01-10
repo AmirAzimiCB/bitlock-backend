@@ -336,6 +336,37 @@ export const sendEmail = (email, data = null, template = null, subject = null) =
     });
 };
 
+// Send Admin Notification
+export const sendAdminEmail = (user, data = null, template = null, subject = null) => {
+    // Read the HTML email template from a file
+    console.log(`utils/${template}`);
+    const source = fs.readFileSync(`utils/${template}`, 'utf-8')
+    var date = new Date().toJSON().slice(0,19).replace('T',':')
+    const html = ejs.render(source, {
+        name: user?.first_name,
+        emailAddress: user?.email,
+        phoneNumber: user?.phone_number,
+        loanAmount: data?.borrow_amount,
+        loanDate: date,
+    });
+
+    const mailOptions = {
+        from: "info@bitloc.io",
+        to: "info@bitloc.io",
+        subject: subject,
+        html: html
+    };
+
+    // Send the email
+    transporter.sendMail(mailOptions, (error, info) => {
+        console.log("gmail Auth", process.env.GMAIL_EMAIL, process.env.GMAIL_KEY)
+        if (error) {
+            console.log("error", error);
+        } else {
+            console.log("Email sent: " + info.response);
+        }
+    });
+};
 
 export const emailsCron = async (req, res) => {
     await loanReminder();

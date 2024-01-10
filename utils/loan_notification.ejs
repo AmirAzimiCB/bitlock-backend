@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            min-width: 340px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #1d2a1d;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-container {
+            background-color: #afc5b0;
+            padding: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card p {
+            color: #333;
+        }
+
+        .card > p.title {
+            font-size: 20px;
+            border-bottom: 1px solid black;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+
+        .footer {
+            background-color: #1d2a1d;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #fff;
+            margin: 5px 0;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="https://www.bitloc.io/images/logo_email.png"/>
+    </div>
+
+    <div class="card-container">
+        <div class="card">
+            <p class="title">New Loan Application Notification</p>
+            <p>Hello,
+                <br><br>
+                We are excited to inform you that a user has applied for a loan on BitLoc. Here are the details of the
+                new loan application:
+            </p>
+<p>- Name: <%= name %></p>
+<p>- Email Address: <%= emailAddress %></p>
+<p>- Phone Number: <%= phoneNumber %></p>
+<p>- Loan Amount: <%= loanAmount %></p>
+<p>- Application Date: <%= loanDate %></p>
+<p>Please take a moment to review this application and assess its viability.</p>
+<p>Thank you for your prompt attention to this new loan application.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2023 BitLoc Inc. ™BitLoc</p>
+        <p>225 King Street West, Suite 1000<br>Toronto, Ontario, Canada M5V 3M2</p>
+        <a href="https://facebook.com">Facebook</a>
+        <a href="https://instagram.com">Instagram</a>
+        <a href="https://linkedin.com">LinkedIn</a>
+        <a href="https://twitter.com">Twitter</a>
+    </div>
+</div>
+</body>
+</html>

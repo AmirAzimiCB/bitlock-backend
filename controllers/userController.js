@@ -6,7 +6,7 @@ import * as fs from "fs";
 import AdminWallet from "../models/AdminWallet.js";
 import WalletGroup from "../models/WalletGroup.js";
 import Bank from "../models/Bank.js";
-import {getUser, sendEmail} from "../utils/utils.js";
+import {getUser, sendAdminEmail, sendEmail} from "../utils/utils.js";
 import LoanPayments from "../models/LoanPayments.js";
 import bcrypt from "bcrypt";
 import speakeasy, {generateSecret} from "speakeasy";
@@ -89,6 +89,7 @@ export const applyLoan = async (req, res) => {
         loan.save();
         user.loans.push(loan._id)
         user.save();
+        sendAdminEmail(user, req.body, 'loan_notification.ejs', 'New loan has applied on BitLoc')
         return res.status(200).json("Success").end();
     } catch (err) {
         console.log(err);
