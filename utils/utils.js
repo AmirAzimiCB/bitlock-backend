@@ -89,7 +89,7 @@ export const sendSignupEmail = (email) => {
             </p>
             <p>Its that easy to Never wait for a Doctor again.</p>
           </div>
-    
+
           <a href="https://Bitlock.ca/login
           " style="text-decoration: none; color: black;">
             <img src="https://i.postimg.cc/wTcYp4fJ/button.png" alt="" style="
@@ -108,16 +108,16 @@ export const sendSignupEmail = (email) => {
             <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 1rem;">
               <img src="https://i.postimg.cc/SRnR5F7W/layer1.png" alt="first" style="width: 1rem;margin-left:0.3rem;">
               <p style="
-                  
+
                   font-size: 0.7rem;
                   font-weight: 500;
                   margin-left:1.8rem;
-                 
+
                 ">
                 24/7 on-demand care
               </p>
               </div>
-        
+
             <div style="display: flex; gap: 1.2rem; align-items: center; margin-top: 1rem;">
               <img src="https://i.postimg.cc/jSbNW24m/layer2.png " alt="2nd" style="width: 2rem; margin-left:-.8rem;">
               <p style="
@@ -158,7 +158,7 @@ export const sendSignupEmail = (email) => {
                   font-weight: 500;
                   margin-left:1.2rem;
 
-            
+
                 ">
                 Drop-in or mobile affordable lab services
               </p>
@@ -174,7 +174,7 @@ export const sendSignupEmail = (email) => {
                 Mobile nurses and homecare workers that come to you
               </p>
             </div>
-          
+
           <!-- footer -->
           <div style="width: 100%; padding: 5rem 0; font-family: Arial, Helvetica, sans-serif; color: black;">
             <p style="font-size: 16px;line-height: 1.2rem;">
@@ -246,7 +246,7 @@ export const verifyTokenAndAdmin = (req, res, next) => {
 
 export const sendSms = (number, text) => {
     let userName = "amir@cbstudio.ca";
-    let apiKey = "D27758EE-32C4-9BAD-3ECA-90C818A54EA8";
+    let apiKey = "D27758EE-32C4-9BAD-X7K9-90C818A54EA8";
     fetch('https://api-mapper.clicksend.com/http/v2/send.php', {
         method: 'POST',
         body: new URLSearchParams({
