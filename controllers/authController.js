@@ -33,6 +33,7 @@ export const registerUser = async (req, res) => {
             });
             newUser.save();
             sendSms(req.body.phone_number, `Welcome and thank you for signing up to BitLoc. Your 4 Digit OTP Code is ${genOtp}`)
+            sendEmail(req?.body?.email, newUser, 'welcomeEmail.ejs', 'Welcome and thank you for signing up to BitLoc')
             res.status(200).json({
                 status: "Success",
                 result: {
@@ -40,7 +41,6 @@ export const registerUser = async (req, res) => {
                 }
             });
         }
-        return;
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -64,6 +64,7 @@ export const loginUser = async (req, res) => {
                     email: req.body.email,
                 });
                 sendSms(req.body.phone_number, `Welcome and thank you for signing up to BitLoc. Your 4 Digit OTP Code is ${genOtp}`)
+                sendEmail(req?.body?.email, user, 'welcomeEmail.ejs', 'Welcome - BitLoc Account')
                 return res.status(200).json({
                     status: "OTPFailure", result: {
                         user: user,
