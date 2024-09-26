@@ -166,6 +166,7 @@ export const sendEmail = (email, data = null, template = null, subject = null) =
   const html = ejs.render(source, {
     name: data?.first_name,
     walletName: data?.walletName,
+    email: data?.email,
     _id: data?._id,
   });
   const mailOptions = {

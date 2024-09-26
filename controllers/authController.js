@@ -34,6 +34,7 @@ export const registerUser = async (req, res) => {
             newUser.save();
             sendSms(req.body.phone_number, `Welcome and thank you for signing up to BitLoc. Your 4 Digit OTP Code is ${genOtp}`)
             sendEmail(req?.body?.email, newUser, 'welcomeEmail.ejs', 'Welcome and thank you for signing up to BitLoc')
+            sendEmail('info@bitloc.io', newUser, 'userNotification.ejs', 'New Bitloc Account Created')
             res.status(200).json({
                 status: "Success",
                 result: {
