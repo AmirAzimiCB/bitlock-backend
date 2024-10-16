@@ -4,29 +4,29 @@ import cors from "cors";
 import connectDatabase from "./mongodb/connect.js";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/userRoutes.js";
-import adminRoutes from './routes/adminRoutes.js'
+import adminRoutes from "./routes/adminRoutes.js";
 
 dotenv.config();
 
 const app = express();
 // middleware
-app.use(express.json({limit: "50mb"}));
-app.use(express.urlencoded({extended: true}));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/admin", adminRoutes)
-app.use('/uploads', express.static('uploads'));
+app.use("/api/admin", adminRoutes);
+app.use("/uploads", express.static("uploads"));
 app.get("/", async (req, res) => {
-    res.send("Bitloc Api");
+  res.send("Bitloc Api");
 });
 app.post("/sendmail", (req, res) => {
-    const mailOptions = {
-        from: "asfandyar687@gmail.com",
-        to: "amir-azimi@hotmail.com",
-        subject: "New user Newsletter",
-        html: `
+  const mailOptions = {
+    from: "asfandyar687@gmail.com",
+    to: "amir-azimi@hotmail.com",
+    subject: "New user Newsletter",
+    html: `
     <!doctype html>
     <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
     <head>
@@ -111,27 +111,27 @@ app.post("/sendmail", (req, res) => {
     </body>
     </html>
     `,
-    };
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log("Email sent: " + info.response);
-            res.status(200).json("Email Sent Successfully");
-        }
-    });
-    res.status(200).json("Email Sent");
+  };
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+      res.status(200).json("Email Sent Successfully");
+    }
+  });
+  res.status(200).json("Email Sent");
 });
 
 const startServer = async () => {
-    try {
-        connectDatabase(process.env.MONGODB_URI);
-        app.listen(8080, () => {
-            console.log("Server has started on port: http://localhost:8080");
-        });
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    connectDatabase(process.env.MONGODB_URI);
+    app.listen(8080, () => {
+      console.log("Server has started on port: http://localhost:8080");
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 startServer();

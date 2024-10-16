@@ -23,6 +23,7 @@ let storage = multer.diskStorage({
 
 export let uploadFile = multer({
   storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
 });
 
 export const transporter = nodemailer.createTransport({
@@ -160,7 +161,12 @@ export let getPopulatedUsers = async () => {
   return user;
 };
 // new users and child accounts welcome email
-export const sendEmail = (email, data = null, template = null, subject = null) => {
+export const sendEmail = (
+  email,
+  data = null,
+  template = null,
+  subject = null
+) => {
   // Read the HTML email template from a file
   const source = fs.readFileSync(`utils/${template}`, "utf-8");
   const html = ejs.render(source, {
