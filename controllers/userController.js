@@ -91,7 +91,6 @@ export const updateBankingInfo = async (req, res) => {
   }
 };
 export const applyLoan = async (req, res) => {
-  console.log(req.body);
   try {
     let user = await User.findOne({ _id: req.params.id });
 
@@ -121,11 +120,7 @@ export const applyLoan = async (req, res) => {
 
     return res.status(200).json("Success").end();
   } catch (err) {
-    console.error(err);
-    return res
-      .status(500)
-      .json({ error: "Failed to apply for loan", details: err })
-      .end();
+    return res.status(500).json({ error: "Failed to apply for loan" }).end();
   }
 };
 export const uploadIdentityFiles = async (req, res) => {

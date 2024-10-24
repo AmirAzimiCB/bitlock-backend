@@ -63,6 +63,7 @@ export const loginUser = async (req, res) => {
     let user = await User.findOne({
       email: req.body.email,
     });
+    console.log("user", user);
     if (!user) {
       return res
         .status(200)
@@ -135,6 +136,7 @@ export const loginUser = async (req, res) => {
       }
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 };
